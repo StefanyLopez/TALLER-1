@@ -1,0 +1,21 @@
+<html>
+	<h1> Formularios</h1>
+	<b>Nombre</b><input type="text" id="nombre">
+
+	<button onclick="salude()">Saludos</button>
+	<button onclick="location.href = 'index.html';">Regresar</button>
+	<script>
+	function salude() {
+	const name = document.getElementById('nombre').value;
+	alert("Saludos terricola " + name + ", buenas tardes!" );	
+	}
+	</script>
+	<br></br>
+	<h1>Transformación de translación</h1>
+	<p>VECTOR ORIGINAL</p>
+	<p>Coordenada inicial <input id ="c_i" size=8></p>
+	<p>Coordenada final <input id ="c_f" size=8></p>
+	<p>VECTOR TRANSLACIÓN</p>
+	<p>Coordenada translación <input id ="c_f" size=8></p>
+	<button onclick=>Aceptar</button>
+</html>
