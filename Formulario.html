@@ -1,21 +1,150 @@
+<!DOCTYPE html>
 <html>
-	<h1> Formularios</h1>
-	<b>Nombre</b><input type="text" id="nombre">
+<head>
+    <title>Transformaciones</title>
+</head>
+<body>
+    <h1>Formularios</h1>
+    <label for="nombre">Nombre <input type="text" id="nombre"></label>
+    <button onclick="saludar()">Saludos</button>
 
-	<button onclick="salude()">Saludos</button>
-	<button onclick="location.href = 'index.html';">Regresar</button>
-	<script>
-	function salude() {
-	const name = document.getElementById('nombre').value;
-	alert("Saludos terricola " + name + ", buenas tardes!" );	
-	}
-	</script>
-	<br></br>
-	<h1>Transformación de translación</h1>
-	<p>VECTOR ORIGINAL</p>
-	<p>Coordenada inicial <input id ="c_i" size=8></p>
-	<p>Coordenada final <input id ="c_f" size=8></p>
-	<p>VECTOR TRANSLACIÓN</p>
-	<p>Coordenada translación <input id ="c_f" size=8></p>
-	<button onclick=>Aceptar</button>
+    <h1>Transformaciones</h1>
+    <p>VECTOR ORIGINAL</p>
+    <label for="c_i">Coordenada inicial x <input id="c_i"></label>
+    <label for="c_f">Coordenada final <input id="c_f"></label>
+    
+    <p>VECTOR TRANSLACIÓN</p>
+    <label for="c_t">Coordenada traslación <input id="c_t"></label>
+    <button onclick="aplicarTraslacion()">Traslación</button>
+    
+    <p>VECTOR ESCALA</p>
+    <label for="Ex">Escalado en x <input id="Ex"></label>
+    <label for="Ey">Escalado en y <input id="Ey"></label>
+    <label for="Ez">Escalado en z <input id="Ez"></label>
+    <button onclick="aplicarEscala()">Escala</button>
+    
+    <p>VECTOR ROTACION</p>
+    <label for="Gr">Grados a rotar <input id="Gr"></label>
+    <button onclick="aplicarRotacion('x')">Rotación en x</button>
+    <button onclick="aplicarRotacion('y')">Rotación en y</button>
+    <button onclick="aplicarRotacion('z')">Rotación en z</button>
+    
+    <script>
+        function saludar() {
+            const nombreUsuario = document.getElementById('nombre').value;
+            alert(`Saludos terrícola ${nombreUsuario}, buenas tardes!`);
+        }
+
+        function aplicarTraslacion() {
+            const coordenadaInicial = document.getElementById('c_i').value.split(',').map(parseFloat);
+            const coordenadaFinal = document.getElementById('c_f').value.split(',').map(parseFloat);
+
+            const xInicial = coordenadaInicial[0];
+            const yInicial = coordenadaInicial[1];
+            const zInicial = coordenadaInicial[2];
+
+            const xFinal = coordenadaFinal[0];
+            const yFinal = coordenadaFinal[1];
+            const zFinal = coordenadaFinal[2];
+
+            const coordenadaTranslacion = document.getElementById('c_t').value.split(',').map(parseFloat);
+            const tx = coordenadaTranslacion[0];
+            const ty = coordenadaTranslacion[1];
+            const tz = coordenadaTranslacion[2];
+
+            const nxFinal = xFinal + tx;
+            const nyFinal = yFinal + ty;
+            const nzFinal = zFinal + tz;
+            const nxInicial = xInicial + tx;
+            const nyInicial = yInicial + ty;
+            const nzInicial = zInicial + tz;
+
+            const result = `El nuevo vector queda: ${nxFinal},${nyFinal},${nzFinal}.
+Con origen en: ${nxInicial},${nyInicial},${nzInicial}`;
+            alert(result);
+        }
+
+        function aplicarEscala() {
+            const coordenadaInicial = document.getElementById('c_i').value.split(',').map(parseFloat);
+            const coordenadaFinal = document.getElementById('c_f').value.split(',').map(parseFloat);
+
+            const xInicial = coordenadaInicial[0];
+            const yInicial = coordenadaInicial[1];
+            const zInicial = coordenadaInicial[2];
+
+            const xFinal = coordenadaFinal[0];
+            const yFinal = coordenadaFinal[1];
+            const zFinal = coordenadaFinal[2];
+
+            const escalaX = parseFloat(document.getElementById('Ex').value) || 1;
+            const escalaY = parseFloat(document.getElementById('Ey').value) || 1;
+            const escalaZ = parseFloat(document.getElementById('Ez').value) || 1;
+
+            const nxFinal = xFinal * escalaX;
+            const nyFinal = yFinal * escalaY;
+            const nzFinal = zFinal * escalaZ;
+            const nxInicial = xInicial * escalaX;
+            const nyInicial = yInicial * escalaY;
+            const nzInicial = zInicial * escalaZ;
+
+            const result = `El nuevo vector queda: ${nxFinal},${nyFinal},${nzFinal}.
+Con origen en: ${nxInicial},${nyInicial},${nzInicial}`;
+            alert(result);
+        }
+
+        function aplicarRotacion(axis) {
+            const coordenadaInicial = document.getElementById('c_i').value.split(',').map(parseFloat);
+            const coordenadaFinal = document.getElementById('c_f').value.split(',').map(parseFloat);
+
+            const xInicial = coordenadaInicial[0];
+            const yInicial = coordenadaInicial[1];
+            const zInicial = coordenadaInicial[2];
+
+            const xFinal = coordenadaFinal[0];
+            const yFinal = coordenadaFinal[1];
+            const zFinal = coordenadaFinal[2];
+
+            const grados = parseFloat(document.getElementById('Gr').value) || 0;
+            const radianes = grados * (Math.PI / 180);
+
+            let nxFinal, nyFinal, nzFinal, nxInicial, nyInicial, nzInicial;
+
+            switch (axis) {
+                case 'x':
+                    nyFinal = yFinal * Math.cos(radianes) - zFinal * Math.sin(radianes);
+                    nzFinal = zFinal * Math.cos(radianes) + yFinal * Math.sin(radianes);
+                    nyInicial = yInicial * Math.cos(radianes) - zInicial * Math.sin(radianes);
+                    nzInicial = zInicial * Math.cos(radianes) + yInicial * Math.sin(radianes);
+
+                    nxFinal = xFinal;
+                    nxInicial = xInicial;
+                    break;
+
+                case 'y':
+                    nxFinal = xFinal * Math.cos(radianes) + zFinal * Math.sin(radianes);
+                    nzFinal = zFinal * Math.cos(radianes) - xFinal * Math.sin(radianes);
+                    nxInicial = xInicial * Math.cos(radianes) + zInicial * Math.sin(radianes);
+                    nzInicial = zInicial * Math.cos(radianes) - xInicial * Math.sin(radianes);
+
+                    nyFinal = yFinal;
+                    nyInicial = yInicial;
+                    break;
+
+                case 'z':
+                    nxFinal = xFinal * Math.cos(radianes) + yFinal * Math.sin(radianes);
+                    nyFinal = yFinal * Math.cos(radianes) - xFinal * Math.sin(radianes);
+                    nxInicial = xInicial * Math.cos(radianes) + yInicial * Math.sin(radianes);
+                    nyInicial = yInicial * Math.cos(radianes) - xInicial * Math.sin(radianes);
+
+                    nzFinal = zFinal;
+                    nzInicial = zInicial;
+                    break;
+            }
+
+            const result = `El vector resultante es: ${nxFinal},${nyFinal},${nzFinal}.
+Con su origen en: ${nxInicial},${nyInicial},${nzInicial}`;
+            alert(result);
+        }
+    </script>
+</body>
 </html>
